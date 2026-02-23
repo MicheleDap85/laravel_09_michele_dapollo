@@ -18,6 +18,9 @@
        <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{{ route('contact') }}">Contattami</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ route('articles.create') }}">Inserisci articolo</a>
+        </li>
     
     </div>
   </div>

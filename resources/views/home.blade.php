@@ -20,6 +20,11 @@
     </div>
     @endif
 
+    @if(session()->has('articleCreated'))
+    <div class="alert alert-success">
+        {{ session('articleCreated') }}
+    </div>
+    @endif
 
     <div class="p-5 mb-4 bg-light rounded-3">
         <div class="container py-5">
