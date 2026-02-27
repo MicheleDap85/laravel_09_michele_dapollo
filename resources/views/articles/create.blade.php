@@ -4,23 +4,36 @@
             <h1 class="mb-4">Crea un nuovo articolo</h1>
         </div>
         <div class="row">
-            <form method="POST" action="{{ route('articles.store') }}">
+            @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+            <form method="POST" action="{{ route('articles.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                     <label for="title" class="form-label">Inserisci il titolo</label>
-                    <input type="text" name="title" class="form-control" id="title" aria-describedby="emailHelp">
+                    <input type="text" name="title" class="form-control" id="title" aria-describedby="emailHelp" value="{{ old('title') }}">
                 </div>
                 <div class="mb-3">
                     <label for="slug" class="form-label">Inserisci lo slug</label>
-                    <input type="text" name="slug" class="form-control" id="slug" aria-describedby="emailHelp">
+                    <input type="text" name="slug" class="form-control" id="slug" aria-describedby="emailHelp" value="{{ old('slug') }}">
                 </div>
                 <div class="mb-3">
                     <label for="excerpt" class="form-label">Inserisci l'estratto</label>
                     <input type="text" name="excerpt" class="form-control" id="excerpt" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3">
+                    <label for="img" class="form-label">Inserisci l'immagine</label>
+                    <input type="file" name="img" class="form-control" id="img" value="{{ old('img') }}"> 
+                </div>
+                <div class="mb-3">
                     <label for="content" class="form-label">Scrivi qui il tuo articolo</label>
-                    <textarea name="content" id="content" class="form-control"></textarea>
+                    <textarea name="content" id="content" class="form-control">{{ old('content') }}</textarea>
                 </div>
                     <button type="submit" class="btn btn-primary">Invia articolo</button>
             </form>

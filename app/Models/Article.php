@@ -12,7 +12,7 @@ class Article extends Model
         'title',
         'slug',
         'excerpt',
-        'image',
+        'img',
         'content',
     ];
 }

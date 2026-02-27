@@ -1,5 +1,4 @@
-<x-layout :title="$article['title']">
-
+<x-layout :title="$article->title">
     <article class="mx-auto" style="max-width: 750px;">
 
         <a href="{{ route('articles.index') }}"
@@ -7,32 +6,34 @@
             ← Torna agli articoli
         </a>
 
-       
-        <div class="mb-4">
-
-            <img 
-                src="{{ $article['image'] }}"
-                alt="{{ $article['title'] }}"
-                class="img-fluid rounded-4 shadow-sm w-100"
+        @if(!$article->img)
+        <img
+                src="https://picsum.photos/200/300"
+                alt="{{ $article->title }}"
+                class="img-fluid mb-3"
                 style="max-height: 420px; object-fit: cover;"
             >
-
-        </div>
+        @else
+            <img
+                src="{{ Storage::url($article->img) }}"
+                alt="{{ $article->title }}"
+                class="img-fluid mb-3"
+                style="max-height: 420px; object-fit: cover;"
+            >
+        @endif
 
         <h1 class="fw-bold mb-3">
-            {{ $article['title'] }}
+            {{ $article->title }}
         </h1>
 
         <p class="lead text-muted mb-4">
-            {{ $article['excerpt'] }}
+            {{ $article->excerpt }}
         </p>
 
         <div class="article-content">
-
-            @foreach (explode("\n\n", $article['content']) as $paragraph)
+            @foreach (explode("\n\n", $article->content) as $paragraph)
                 <p>{{ $paragraph }}</p>
             @endforeach
-
         </div>
 
     </article>

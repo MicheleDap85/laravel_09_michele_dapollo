@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use App\Http\Requests\ArticleRequest;
 
 class BlogController extends Controller
 {
@@ -46,36 +47,31 @@ class BlogController extends Controller
         return view('articles.create');
     }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'title'   => ['required', 'string', 'max:255'],
-            'slug'    => ['nullable', 'string', 'max:255', 'unique:articles,slug'],
-            'excerpt' => ['nullable', 'string'],
-            'content' => ['required', 'string'],
-        ]);
+    public function store(ArticleRequest $request)
+{
+    $validated = $request->validated();
 
-       
-        $slug = $validated['slug'] ?? Str::slug($validated['title']);
-
-        
-        $baseSlug = $slug;
-        $i = 2;
-        while (Article::where('slug', $slug)->exists()) {
-            $slug = $baseSlug . '-' . $i;
-            $i++;
-        }
-
-        Article::create([
-            'title'   => $validated['title'],
-            'slug'    => $slug,
-            'image'   => 'https://picsum.photos/600/400?random=' . random_int(1, 200),
-            'excerpt' => $validated['excerpt'] ?? null,
-            'content' => $validated['content'],
-        ]);
-
-        return redirect()->route('home')->with('articleCreated', 'Articolo creato con successo!');
+    $slug = $validated['slug'] ?? Str::slug($validated['title']);
+    $baseSlug = $slug;
+    $i = 2;
+    while (Article::where('slug', $slug)->exists()) {
+        $slug = $baseSlug . '-' . $i++;
     }
+
+    $imgPath = $request->hasFile('img')
+        ? $request->file('img')->store('image', 'public')
+        : null;
+
+    Article::create([
+        'title'   => $validated['title'],
+        'slug'    => $slug,
+        'img'     => $imgPath,
+        'excerpt' => $validated['excerpt'] ?? null,
+        'content' => $validated['content'],
+    ]);
+
+    return redirect()->route('home')->with('articleCreated', 'Articolo creato con successo!');
+}
 
     public function contact()
     {

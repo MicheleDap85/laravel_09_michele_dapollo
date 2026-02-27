@@ -14,9 +14,9 @@ return new class extends Migration
             $table->timestamps();
             $table->string('title');
             $table->string('slug');
-            $table->string('image');
             $table->text('excerpt');
             $table->text('content');
+            $table->string('img')->nullable();
         });
     }
 

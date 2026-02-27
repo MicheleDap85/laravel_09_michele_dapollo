@@ -27,7 +27,7 @@
                                 {{ $article['title'] }}
                             </h2>
 
-                            <img src="{{ $article['image'] }}" alt="{{ $article['title'] }}" class="img-fluid mb-3"
+                            <img src="{{ Storage::url($article->img) }}" alt="{{ $article['title'] }}" class="img-fluid mb-3"
                             class="img-fluid rounded-4 shadow-sm w-100"
                             style="max-height: 420px; object-fit: cover;">
                             
