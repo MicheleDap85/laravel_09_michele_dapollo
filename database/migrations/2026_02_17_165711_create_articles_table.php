@@ -9,20 +9,16 @@ return new class extends Migration
     
     public function up(): void
     {
-        Schema::create('articles', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->string('title');
-            $table->string('slug');
-            $table->text('excerpt');
-            $table->text('content');
-            $table->string('img')->nullable();
+        Schema::table('articles', function (Blueprint $table) {
+            $table->string('img')->nullable()->after('excerpt');
         });
     }
 
    
     public function down(): void
     {
-        Schema::dropIfExists('articles');
+        Schema::table('articles', function (Blueprint $table) {
+            $table->dropColumn('img');
+        });
     }
 };

@@ -49,25 +49,12 @@ class BlogController extends Controller
 
     public function store(ArticleRequest $request)
 {
-    $validated = $request->validated();
-
-    $slug = $validated['slug'] ?? Str::slug($validated['title']);
-    $baseSlug = $slug;
-    $i = 2;
-    while (Article::where('slug', $slug)->exists()) {
-        $slug = $baseSlug . '-' . $i++;
-    }
-
-    $imgPath = $request->hasFile('img')
-        ? $request->file('img')->store('image', 'public')
-        : null;
-
-    Article::create([
-        'title'   => $validated['title'],
-        'slug'    => $slug,
-        'img'     => $imgPath,
-        'excerpt' => $validated['excerpt'] ?? null,
-        'content' => $validated['content'],
+    $article = Article::create([
+        'title' => $request->title,
+        'slug' => $request->slug,
+        'excerpt' => $request->excerpt,
+        'content' => $request->content,
+        'img' => $request->file('img')->store('public/images'), 
     ]);
 
     return redirect()->route('home')->with('articleCreated', 'Articolo creato con successo!');
